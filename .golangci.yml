@@ -1,0 +1,14 @@
+linters-settings:
+  gocyclo:
+    min-complexity: 20
+  nakedret:
+    max-func-lines: 1
+linters:
+  enable-all: true
+  disable:
+    - gochecknoglobals
+    - gochecknoinits
+    - lll
+    - funlen
+    - wsl
+    - gocognit
