@@ -4,11 +4,7 @@ linters-settings:
   nakedret:
     max-func-lines: 1
 linters:
-  enable-all: true
-  disable:
-    - gochecknoglobals
-    - gochecknoinits
-    - lll
-    - funlen
-    - wsl
-    - gocognit
+  disable-all: true
+  enable:
+    - gocyclo
+    - nakedret

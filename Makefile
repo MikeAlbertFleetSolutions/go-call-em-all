@@ -1,21 +1,26 @@
-.PHONY: default get codetest test fmt lint vet
+.PHONY: default get codetest fmt lint vet
 
-default: codetest
+default: fmt codetest
 
 get:
-	go get -v ./...
-	curl -sfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh| sh -s -- -b $(shell go env GOPATH)/bin v1.20.0
+ifneq ("$(CI)", "true")
+	go get -u ./...
+	go mod tidy
+endif
+	go mod download
+	go mod verify
 
-codetest: fmt lint vet test
-
-test:
-	go test -v -cover
+codetest: lint vet
 
 fmt:
 	go fmt ./...
 
 lint:
-	golangci-lint run --fix
+ifeq ("$(CI)", "true")
+	$(shell go env GOPATH)/bin/golangci-lint run --verbose --timeout 3m
+else
+	$(shell go env GOPATH)/bin/golangci-lint run --fix
+endif
 
 vet:
-	go vet -all .
+	go vet -all ./...

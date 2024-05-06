@@ -3,7 +3,6 @@ package callemall
 import (
 	"fmt"
 	"io"
-	"io/ioutil"
 	"log"
 	"net/http"
 	"time"
@@ -81,7 +80,7 @@ func (client *Client) makeRequest(method, url string, body io.Reader) ([]byte, e
 	// get body for caller, if there is something
 	var data []byte
 	if response.ContentLength != 0 {
-		data, err = ioutil.ReadAll(response.Body)
+		data, err = io.ReadAll(response.Body)
 		if err != nil {
 			log.Printf("%+v", err)
 			return nil, err
